@@ -109,7 +109,33 @@
       table-layout: auto;
     }
     thead {
-      display: none;
+      /* Kopfzeile als sichtbares Flex-Element um Überschriften zu zeigen */
+      display: flex;
+      flex-wrap: wrap;
+      background-color: #1e1e1e;
+      border-bottom: 2px solid #f5a623;
+      padding: 0.25rem 0.5rem;
+    }
+    thead tr {
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    thead tr th {
+      display: flex;
+      flex: 1 0 auto;
+      padding: 0.25rem 0.5rem;
+      border: none;
+      font-weight: 600;
+      color: #f5a623;
+      border-right: 1px solid #444;
+      min-width: 0; /* Für Ellipsis */
+      box-sizing: border-box;
+    }
+    thead tr th:last-child {
+      border-right: none;
     }
     tbody tr.main-row {
       display: flex;
@@ -120,25 +146,31 @@
     }
     tbody tr.main-row td {
       display: block;
-      flex: 1 1 auto;
+      flex: 1 0 45%;
       padding: 0.25rem 0.5rem;
       white-space: normal;
       overflow: visible;
       text-overflow: clip;
       vertical-align: top;
       color: inherit;
+      box-sizing: border-box;
+      min-width: 0; /* für Ellipsis */
     }
     tbody tr.main-row td:nth-child(1) {
-      flex-basis: 45%;
+      flex-basis: 40%;
       font-weight: 600;
     }
-    tbody tr.main-row td:nth-child(2),
-    tbody tr.main-row td:nth-child(3),
+    tbody tr.main-row td:nth-child(2) {
+      flex-basis: 15%;
+    }
+    tbody tr.main-row td:nth-child(3) {
+      flex-basis: 15%;
+    }
     tbody tr.main-row td:nth-child(4) {
-      flex-basis: 17%;
+      flex-basis: 15%;
     }
     tbody tr.main-row td:nth-child(5) {
-      flex-basis: 8%;
+      flex-basis: 15%;
       text-align: center;
     }
     tbody tr.note-row {
@@ -319,8 +351,8 @@
       const notesContainer = document.createElement('div');
       notesContainer.className = 'notes-container';
 
-      // Nur Button hinzufügen, wenn Notiz vorhanden ist (Standard oder bearbeitet)
       const noteText = (notesTexts.hasOwnProperty(i) && notesTexts[i].trim() !== '') ? notesTexts[i].trim() : ex.notes.trim();
+
       if (noteText.length > 0) {
         const toggleButton = document.createElement('button');
         toggleButton.type = 'button';
@@ -328,7 +360,6 @@
         toggleButton.textContent = expandedNotes.includes(i) ? '−' : '+';
         notesContainer.appendChild(toggleButton);
 
-        // Eventlistener Button erweitern unten
         toggleButton.addEventListener('click', (e) => {
           e.stopPropagation();
           const isActive = trNote.classList.contains('active');
@@ -488,45 +519,6 @@
           tdNote.textContent = newText;
           textarea.remove();
           tdNote.style.color = getRowTextColor();
-          // Falls Notiz jetzt leer ist, Button verstecken:
-          if (newText === '') {
-            // Entferne Button falls vorhanden
-            const btn = tdNotesBtn.querySelector('.toggle-notes-button');
-            if (btn) {
-              btn.remove();
-              trNote.classList.remove('active');
-              // Update expandedNotes to remove this index
-              const idx = expandedNotes.indexOf(i);
-              if (idx > -1) {
-                expandedNotes.splice(idx, 1);
-                updateStorage();
-              }
-            }
-          } else {
-            // Falls Button nicht existiert, hinzufügen
-            if (!tdNotesBtn.querySelector('.toggle-notes-button')) {
-              const toggleButton = document.createElement('button');
-              toggleButton.type = 'button';
-              toggleButton.className = 'toggle-notes-button';
-              toggleButton.textContent = '+';
-              toggleButton.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const isActive = trNote.classList.contains('active');
-                if (isActive) {
-                  trNote.classList.remove('active');
-                  toggleButton.textContent = '+';
-                  const idx = expandedNotes.indexOf(i);
-                  if (idx > -1) expandedNotes.splice(idx, 1);
-                } else {
-                  trNote.classList.add('active');
-                  toggleButton.textContent = '−';
-                  if (!expandedNotes.includes(i)) expandedNotes.push(i);
-                }
-                updateStorage();
-              });
-              tdNotesBtn.appendChild(toggleButton);
-            }
-          }
         }
 
         textarea.addEventListener('blur', saveNote);
@@ -556,5 +548,6 @@
 </script>
 </body>
 </html>
+
 
 
