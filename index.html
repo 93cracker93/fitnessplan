@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Fitnessplan</title>
 <style>
-  /* Darkmode Hintergrund und Text */
   body {
     background-color: #121212;
     color: #e0e0e0;
@@ -41,7 +40,6 @@
     background-color: #e09e1f;
     outline: none;
   }
-
   table {
     width: 100%;
     border-collapse: collapse;
@@ -70,16 +68,11 @@
   tbody tr:nth-child(even) {
     background-color: #1c1c1c;
   }
-
-  /* Spaltenbreiten (priorisiert) - Übungsname minimal vergrößert */
-  th:nth-child(1), td:nth-child(1) { width: 25%; }
-  th:nth-child(2), td:nth-child(2) { width: 10%; }
-  th:nth-child(3), td:nth-child(3) { width: 10%; }
-  th:nth-child(4), td:nth-child(4) { width: 12%; }
-  th:nth-child(5), td:nth-child(5) { width: 28%; }
-  th:nth-child(6), td:nth-child(6) { width: 15%; }
-
-  /* Mobile Anpassungen */
+  th:nth-child(1), td:nth-child(1) { width: 20%; }
+  th:nth-child(2), td:nth-child(2) { width: 14%; }
+  th:nth-child(3), td:nth-child(3) { width: 14%; }
+  th:nth-child(4), td:nth-child(4) { width: 15%; }
+  th:nth-child(5), td:nth-child(5) { width: 37%; }
   @media (max-width: 600px) {
     body {
       padding: 0.5rem;
@@ -116,10 +109,6 @@
       word-wrap: break-word;
       vertical-align: top;
     }
-    .comment-input {
-      font-size: 0.8rem;
-      padding: 0.3rem 0.5rem;
-    }
     .wdh-input {
       font-size: 0.8rem;
       padding: 0.2rem 0.4rem;
@@ -152,42 +141,26 @@
       background-color: #2a2a2a;
       color: #f5a623;
     }
+    .notes-container button.toggle-notes-button {
+      font-size: 1.1rem;
+    }
+    .notes-content {
+      font-size: 0.9rem;
+      padding: 0.4rem 0.6rem;
+      color: #e0e0e0;
+    }
   }
-
-  /* Markierung für angeklickte Zeilen */
   .clicked {
     background-color: #444 !important;
     color: #f5a623 !important;
   }
-  .clicked .comment-input {
+  tbody tr.clicked .notes-content {
     color: #f5a623 !important;
-    border-color: #f5a623 !important;
-    background-color: #3a3a3a !important;
   }
-  .comment-input {
-    width: 100%;
-    box-sizing: border-box;
-    background-color: #1e1e1e;
-    border: 1px solid #333;
-    border-radius: 4px;
-    color: #e0e0e0;
-    padding: 0.3rem 0.5rem;
-    font-size: 0.9rem;
-    transition: color 0.3s, border-color 0.3s, background-color 0.3s;
-  }
-  .comment-input:focus {
-    outline: none;
-    border-color: #f5a623;
-    background-color: #2a2a2a;
-    color: #f5a623;
-  }
-
-  /* Notiz Einblenden Button */
   .notes-container {
     position: relative;
     user-select: none;
   }
-
   .toggle-notes-button {
     display: inline-block;
     margin: 0 0 0.2rem 0;
@@ -208,18 +181,29 @@
   .toggle-notes-button:focus {
     outline: 2px solid #e09e1f;
   }
-
   .notes-content {
-    display: none;
     margin-top: 0.3em;
     padding: 0.4rem 0.6rem;
     background-color: #2a2a2a;
     border-radius: 4px;
     white-space: normal;
     cursor: pointer;
+    user-select: text;
+    display: none;
   }
   .notes-container.expanded .notes-content {
     display: block;
+  }
+  .notes-edit-textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: 1px solid #f5a623;
+    background-color: #1e1e1e;
+    font-family: inherit;
+    font-size: 0.9rem;
+    padding: 0.3rem 0.5rem;
+    resize: vertical;
   }
 </style>
 </head>
@@ -232,11 +216,10 @@
   <thead>
     <tr>
       <th>Übung</th>
-      <th>Nr</th>
-      <th>Wdh</th>
+      <th>Gerät</th>
+      <th>Wdh.</th>
       <th>kg</th>
       <th>Notizen</th>
-      <th>Kom.</th>
     </tr>
   </thead>
   <tbody>
@@ -251,7 +234,6 @@
           <div class="notes-content">Lehne ganz nach hinten, Füße schulterbreit in der Mitte der Auflage platzieren, Fußspitzen zeigen leicht nach außen</div>
         </div>
       </td>
-      <td data-label="Kommentar"><input type="text" class="comment-input" data-row-index="0" /></td>
     </tr>
     <tr>
       <td data-label="Übung">Adduktor</td>
@@ -264,7 +246,6 @@
           <div class="notes-content"></div>
         </div>
       </td>
-      <td data-label="Kommentar"><input type="text" class="comment-input" data-row-index="1" /></td>
     </tr>
     <tr>
       <td data-label="Übung">Abduktor</td>
@@ -277,7 +258,6 @@
           <div class="notes-content"></div>
         </div>
       </td>
-      <td data-label="Kommentar"><input type="text" class="comment-input" data-row-index="2" /></td>
     </tr>
     <tr>
       <td data-label="Übung">Latzug o. Kabelzug</td>
@@ -290,7 +270,6 @@
           <div class="notes-content">Schultern mit herunternehmen, Ellenbogen leicht vor dem Körper halten, Zug zur Hüfte</div>
         </div>
       </td>
-      <td data-label="Kommentar"><input type="text" class="comment-input" data-row-index="5" /></td>
     </tr>
     <tr>
       <td data-label="Übung">v1Rudern</td>
@@ -303,7 +282,6 @@
           <div class="notes-content">Ellenbogen eng am Körper, Zug zur Hüfte</div>
         </div>
       </td>
-      <td data-label="Kommentar"><input type="text" class="comment-input" data-row-index="6" /></td>
     </tr>
     <tr>
       <td data-label="Übung">v2Kabelzug enger Griff</td>
@@ -316,7 +294,6 @@
           <div class="notes-content">Ellenbogen eng am Körper, Zug zur Hüfte</div>
         </div>
       </td>
-      <td data-label="Kommentar"><input type="text" class="comment-input" data-row-index="6" /></td>
     </tr>
     <tr>
       <td data-label="Übung">Brustpresse</td>
@@ -329,7 +306,6 @@
           <div class="notes-content">Horizontaler Griff, Ins Hohlkreuz setzen, Schulterblätter an der Lehne fixieren, Schultern unten lassen</div>
         </div>
       </td>
-      <td data-label="Kommentar"><input type="text" class="comment-input" data-row-index="3" /></td>
     </tr>
     <tr>
       <td data-label="Übung">Butterfly</td>
@@ -342,7 +318,6 @@
           <div class="notes-content">Griffe auf Brusthöhe, ins Hohlkreuz setzen, Schulterblätter an der Lehne fixieren, Schultern unten lassen</div>
         </div>
       </td>
-      <td data-label="Kommentar"><input type="text" class="comment-input" data-row-index="4" /></td>
     </tr>
     <tr>
       <td data-label="Übung">Seitheben</td>
@@ -355,7 +330,6 @@
           <div class="notes-content">Drehgelenk auf Schulterhöhe, Gewicht wird „aus dem Ellenbogen geführt“</div>
         </div>
       </td>
-      <td data-label="Kommentar"><input type="text" class="comment-input" data-row-index="7" /></td>
     </tr>
     <tr>
       <td data-label="Übung">Butterfly reverse</td>
@@ -368,7 +342,6 @@
           <div class="notes-content">Schultern unten lassen, Arme nur so weit nach hinten bewegen bis eine gerade Linie mit dem Rücken entsteht, hinten kurz halten</div>
         </div>
       </td>
-      <td data-label="Kommentar"><input type="text" class="comment-input" data-row-index="8" /></td>
     </tr>
     <tr>
       <td data-label="Übung">Rückenstrecker</td>
@@ -381,7 +354,6 @@
           <div class="notes-content">Rückenrolle Stufe 4, das davor Stufe 7 circa, Beine so wie es passt</div>
         </div>
       </td>
-      <td data-label="Kommentar"><input type="text" class="comment-input" data-row-index="9" /></td>
     </tr>
     <tr>
       <td data-label="Übung">Bauch – Beinheben in der Stütz oder Bauchpresse</td>
@@ -394,7 +366,6 @@
           <div class="notes-content">Schulter auf höhe der armstützen</div>
         </div>
       </td>
-      <td data-label="Kommentar"><input type="text" class="comment-input" data-row-index="10" /></td>
     </tr>
   </tbody>
 </table>
@@ -402,45 +373,25 @@
 <script>
   window.addEventListener("DOMContentLoaded", () => {
     const rows = Array.from(document.querySelectorAll("tbody tr"));
-
-    // Zustände aus localStorage laden
     const clickedRows = JSON.parse(localStorage.getItem('clickedRows') || '[]');
     const expandedNotes = JSON.parse(localStorage.getItem('expandedNotes') || '[]');
-    const comments = JSON.parse(localStorage.getItem('comments') || '{}');
     const wdhValues = JSON.parse(localStorage.getItem('wdhValues') || '{}');
     const kgValues = JSON.parse(localStorage.getItem('kgValues') || '{}');
+    const notesTexts = JSON.parse(localStorage.getItem('notesTexts') || '{}');
 
-    // Funktion um Wdh. Zell-Inhalt zu aktualisieren
-    function setWdhCell(cell, val) {
-      cell.textContent = val;
-    }
-    // Funktion um kg Zell-Inhalt zu aktualisieren
-    function setKgCell(cell, val) {
-      cell.textContent = val;
-    }
+    function setWdhCell(cell, val) { cell.textContent = val; }
+    function setKgCell(cell, val) { cell.textContent = val; }
 
     rows.forEach((row, index) => {
       row.style.cursor = 'pointer';
+      if (clickedRows.includes(index)) { row.classList.add("clicked"); }
 
-      if (clickedRows.includes(index)) {
-        row.classList.add("clicked");
-      }
-
-      // Kommentar laden
-      const input = row.querySelector('.comment-input');
-      if (input && comments.hasOwnProperty(index)) {
-        input.value = comments[index];
-      }
-
-      // Wdh. Zelle mit Event für Editieren
       const wdhCell = row.querySelector('.wdh-cell');
       if (wdhCell) {
         const val = wdhValues.hasOwnProperty(index) ? wdhValues[index] : '1';
         setWdhCell(wdhCell, val);
-
         wdhCell.addEventListener('click', (e) => {
           if (wdhCell.querySelector('input')) return;
-
           const inputEdit = document.createElement('input');
           inputEdit.type = 'number';
           inputEdit.min = 1;
@@ -448,49 +399,34 @@
           inputEdit.value = val;
           inputEdit.className = 'wdh-input';
           inputEdit.style.width = '2em';
-
           wdhCell.textContent = '';
           wdhCell.appendChild(inputEdit);
           inputEdit.focus();
 
           function saveValue() {
             let newVal = inputEdit.value.trim();
-            if (!['1', '2', '3'].includes(newVal)) {
-              newVal = '1'; 
-            }
+            if (!['1', '2', '3'].includes(newVal)) { newVal = '1'; }
             wdhValues[index] = newVal;
             localStorage.setItem('wdhValues', JSON.stringify(wdhValues));
             setWdhCell(wdhCell, newVal);
           }
 
-          inputEdit.addEventListener('blur', () => {
-            saveValue();
-          });
-
+          inputEdit.addEventListener('blur', () => { saveValue(); });
           inputEdit.addEventListener('keydown', (ev) => {
-            if (ev.key === 'Enter') {
-              inputEdit.blur();
-            }
-            if (ev.key === 'Escape') {
-              setWdhCell(wdhCell, val);
-            }
+            if (ev.key === 'Enter') { inputEdit.blur(); }
+            if (ev.key === 'Escape') { setWdhCell(wdhCell, val); }
           });
-
           e.stopPropagation();
         });
       }
 
-      // kg Zelle mit Event für Editieren
       const kgCell = row.querySelector('.kg-cell');
       if (kgCell) {
-        // Wert aus localStorage oder aus Zelle
         const defaultKgValInCell = kgCell.textContent.trim();
         const val = kgValues.hasOwnProperty(index) ? kgValues[index] : defaultKgValInCell;
         setKgCell(kgCell, val);
-
         kgCell.addEventListener('click', (e) => {
           if (kgCell.querySelector('input')) return;
-
           const inputEdit = document.createElement('input');
           inputEdit.type = 'number';
           inputEdit.min = 10;
@@ -498,14 +434,12 @@
           inputEdit.value = val;
           inputEdit.className = 'kg-input';
           inputEdit.style.width = '3em';
-
           kgCell.textContent = '';
           kgCell.appendChild(inputEdit);
           inputEdit.focus();
 
           function saveValue() {
             let newVal = inputEdit.value.trim();
-            // Prüfe auf zweistellige Zahl zwischen 10 und 99, sonst auf Standard zurück
             if (!/^[0-9]{2}$/.test(newVal) || Number(newVal) < 10 || Number(newVal) > 99) {
               newVal = defaultKgValInCell;
             }
@@ -514,19 +448,11 @@
             setKgCell(kgCell, newVal);
           }
 
-          inputEdit.addEventListener('blur', () => {
-            saveValue();
-          });
-
+          inputEdit.addEventListener('blur', () => { saveValue(); });
           inputEdit.addEventListener('keydown', (ev) => {
-            if (ev.key === 'Enter') {
-              inputEdit.blur();
-            }
-            if (ev.key === 'Escape') {
-              setKgCell(kgCell, val);
-            }
+            if (ev.key === 'Enter') { inputEdit.blur(); }
+            if (ev.key === 'Escape') { setKgCell(kgCell, val); }
           });
-
           e.stopPropagation();
         });
       }
@@ -534,70 +460,118 @@
       row.addEventListener("click", (e) => {
         if(e.target.tagName.toLowerCase() === 'input') return;
         if(e.target.classList.contains('wdh-input')) return;
-        if(e.target.classList.contains('comment-input')) return;
         if(e.target.classList.contains('kg-input')) return;
-        row.classList.toggle("clicked");
-        const clickedNow = rows.filter(r => r.classList.contains('clicked')).map(r => rows.indexOf(r));
-        localStorage.setItem('clickedRows', JSON.stringify(clickedNow));
+        const cell = e.target.closest('td');
+        if (!cell) return;
+        const cellIndex = Array.from(cell.parentNode.children).indexOf(cell);
+        if (cellIndex === 0 || cellIndex === 1) {
+          row.classList.toggle("clicked");
+          const clickedNow = rows.filter(r => r.classList.contains('clicked'))
+                                 .map(r => rows.indexOf(r));
+          localStorage.setItem('clickedRows', JSON.stringify(clickedNow));
+        }
       });
-
-      if (input) {
-        input.addEventListener('input', (e) => {
-          comments[index] = e.target.value;
-          localStorage.setItem('comments', JSON.stringify(comments));
-        });
-      }
     });
 
-    // Notizen Logik
     const notesContainers = Array.from(document.querySelectorAll('.notes-container'));
-
     notesContainers.forEach((container, i) => {
       const button = container.querySelector('.toggle-notes-button');
       const notesContent = container.querySelector('.notes-content');
 
+      if(notesTexts.hasOwnProperty(i) && notesTexts[i].trim() !== '') {
+        notesContent.textContent = notesTexts[i];
+      }
+
       if (!notesContent || !notesContent.textContent.trim()) {
         button.style.display = 'none';
         container.style.cursor = 'default';
-      } else {
-        button.textContent = '+';
-        button.style.display = 'inline-block';
+        return;
+      }
 
-        if (expandedNotes.includes(i)) {
+      function updateExpandedState(expanded) {
+        if(expanded) {
           container.classList.add('expanded');
-          button.style.display = 'none';
+          button.textContent = '-';
+          if(!expandedNotes.includes(i)) {
+            expandedNotes.push(i);
+          }
+        } else {
+          container.classList.remove('expanded');
+          button.textContent = '+';
+          const idx = expandedNotes.indexOf(i);
+          if(idx > -1) {
+            expandedNotes.splice(idx, 1);
+          }
+        }
+        localStorage.setItem('expandedNotes', JSON.stringify(expandedNotes));
+        notesContent.style.display = expanded ? 'block' : 'none';
+      }
+
+      let expanded = expandedNotes.includes(i);
+      updateExpandedState(expanded);
+
+      button.addEventListener('click', (e) => {
+        e.stopPropagation();
+        expanded = !expanded;
+        updateExpandedState(expanded);
+      });
+
+      notesContent.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if(container.querySelector('textarea.notes-edit-textarea')) return;
+        const currentText = notesContent.textContent.trim();
+        notesContent.style.display = 'none';
+
+        const textarea = document.createElement('textarea');
+        textarea.className = 'notes-edit-textarea';
+        textarea.value = currentText;
+        textarea.rows = 4;
+
+        // Textfarbe aus Zeile übernehmen (orange wenn markiert, else grau)
+        const row = container.closest('tr');
+        if (row) {
+          const rowColor = getComputedStyle(row).color;
+          textarea.style.color = rowColor;
         }
 
-        button.addEventListener('click', (e) => {
-          e.stopPropagation();
-          container.classList.add('expanded');
-          button.style.display = 'none';
-          expandedNotes.push(i);
-          const uniqueIndexes = [...new Set(expandedNotes)];
-          localStorage.setItem('expandedNotes', JSON.stringify(uniqueIndexes));
+        container.appendChild(textarea);
+        textarea.focus();
+
+        function saveNote() {
+          const newText = textarea.value.trim();
+          notesTexts[i] = newText;
+          localStorage.setItem('notesTexts', JSON.stringify(notesTexts));
+          notesContent.textContent = newText;
+          notesContent.style.display = 'block';
+          expanded = true;
+          updateExpandedState(expanded);
+          textarea.remove();
+        }
+
+        textarea.addEventListener('blur', () => {
+          saveNote();
         });
 
-        notesContent.addEventListener('click', (e) => {
-          container.classList.remove('expanded');
-          button.style.display = 'inline-block';
-          e.stopPropagation();
-          const idx = expandedNotes.indexOf(i);
-          if (idx > -1) {
-            expandedNotes.splice(idx, 1);
-            localStorage.setItem('expandedNotes', JSON.stringify(expandedNotes));
+        textarea.addEventListener('keydown', (ev) => {
+          if (ev.key === 'Enter' && !ev.shiftKey) {
+            ev.preventDefault();
+            textarea.blur();
+          }
+          if (ev.key === 'Escape') {
+            notesContent.style.display = 'block';
+            textarea.remove();
           }
         });
-      }
+      });
     });
 
-    // Button zum Zurücksetzen des localStorage
     const resetButton = document.getElementById('reset-storage-button');
     resetButton.addEventListener('click', () => {
       localStorage.removeItem('clickedRows');
       localStorage.removeItem('expandedNotes');
-      localStorage.removeItem('comments');
       localStorage.removeItem('wdhValues');
       localStorage.removeItem('kgValues');
+      localStorage.removeItem('notesTexts');
       location.reload();
     });
   });
