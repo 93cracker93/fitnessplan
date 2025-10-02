@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Fitnessplan</title>
 <style>
+  /* Darkmode Hintergrund und Text */
   body {
     background-color: #121212;
     color: #e0e0e0;
@@ -70,14 +71,15 @@
     background-color: #1c1c1c;
   }
 
-  /* Spaltenbreiten (angepasst) */
-  th:nth-child(1), td:nth-child(1) { width: 22%; }
+  /* Spaltenbreiten (priorisiert) - Übungsname minimal vergrößert */
+  th:nth-child(1), td:nth-child(1) { width: 25%; }
   th:nth-child(2), td:nth-child(2) { width: 10%; }
   th:nth-child(3), td:nth-child(3) { width: 10%; }
-  th:nth-child(4), td:nth-child(4) { width: 13%; }
-  th:nth-child(5), td:nth-child(5) { width: 30%; }
+  th:nth-child(4), td:nth-child(4) { width: 12%; }
+  th:nth-child(5), td:nth-child(5) { width: 28%; }
   th:nth-child(6), td:nth-child(6) { width: 15%; }
 
+  /* Mobile Anpassungen */
   @media (max-width: 600px) {
     body {
       padding: 0.5rem;
@@ -152,6 +154,7 @@
     }
   }
 
+  /* Markierung für angeklickte Zeilen */
   .clicked {
     background-color: #444 !important;
     color: #f5a623 !important;
@@ -179,6 +182,7 @@
     color: #f5a623;
   }
 
+  /* Notiz Einblenden Button */
   .notes-container {
     position: relative;
     user-select: none;
@@ -236,33 +240,207 @@
     </tr>
   </thead>
   <tbody>
-    <!-- Table rows remain unchanged -->
-    <!-- ... (identisch zum ursprünglichen Inhalt) ... -->
-    <!-- Füge hier alle Zeilen der Übungen wie in deiner Vorlage ein -->
+    <tr>
+      <td data-label="Übung">Beinpresse</td>
+      <td data-label="Geräte-Nr.">30</td>
+      <td data-label="Wdh." class="wdh-cell" data-row-index="0">1</td>
+      <td data-label="Startgewicht" class="kg-cell" data-row-index="0">60</td>
+      <td data-label="Notizen">
+        <div class="notes-container">
+          <button class="toggle-notes-button" type="button"></button>
+          <div class="notes-content">Lehne ganz nach hinten, Füße schulterbreit in der Mitte der Auflage platzieren, Fußspitzen zeigen leicht nach außen</div>
+        </div>
+      </td>
+      <td data-label="Kommentar"><input type="text" class="comment-input" data-row-index="0" /></td>
+    </tr>
+    <tr>
+      <td data-label="Übung">Adduktor</td>
+      <td data-label="Geräte-Nr.">25</td>
+      <td data-label="Wdh." class="wdh-cell" data-row-index="1">1</td>
+      <td data-label="Startgewicht" class="kg-cell" data-row-index="1">50</td>
+      <td data-label="Notizen">
+        <div class="notes-container">
+          <button class="toggle-notes-button" type="button"></button>
+          <div class="notes-content"></div>
+        </div>
+      </td>
+      <td data-label="Kommentar"><input type="text" class="comment-input" data-row-index="1" /></td>
+    </tr>
+    <tr>
+      <td data-label="Übung">Abduktor</td>
+      <td data-label="Geräte-Nr.">24</td>
+      <td data-label="Wdh." class="wdh-cell" data-row-index="2">1</td>
+      <td data-label="Startgewicht" class="kg-cell" data-row-index="2">40</td>
+      <td data-label="Notizen">
+        <div class="notes-container">
+          <button class="toggle-notes-button" type="button"></button>
+          <div class="notes-content"></div>
+        </div>
+      </td>
+      <td data-label="Kommentar"><input type="text" class="comment-input" data-row-index="2" /></td>
+    </tr>
+    <tr>
+      <td data-label="Übung">Latzug o. Kabelzug</td>
+      <td data-label="Geräte-Nr.">48/41</td>
+      <td data-label="Wdh." class="wdh-cell" data-row-index="3">1</td>
+      <td data-label="Startgewicht" class="kg-cell" data-row-index="3">45</td>
+      <td data-label="Notizen">
+        <div class="notes-container">
+          <button class="toggle-notes-button" type="button"></button>
+          <div class="notes-content">Schultern mit herunternehmen, Ellenbogen leicht vor dem Körper halten, Zug zur Hüfte</div>
+        </div>
+      </td>
+      <td data-label="Kommentar"><input type="text" class="comment-input" data-row-index="5" /></td>
+    </tr>
+    <tr>
+      <td data-label="Übung">v1Rudern</td>
+      <td data-label="Geräte-Nr.">4/41</td>
+      <td data-label="Wdh." class="wdh-cell" data-row-index="4">1</td>
+      <td data-label="Startgewicht" class="kg-cell" data-row-index="4">30</td>
+      <td data-label="Notizen">
+        <div class="notes-container">
+          <button class="toggle-notes-button" type="button"></button>
+          <div class="notes-content">Ellenbogen eng am Körper, Zug zur Hüfte</div>
+        </div>
+      </td>
+      <td data-label="Kommentar"><input type="text" class="comment-input" data-row-index="6" /></td>
+    </tr>
+    <tr>
+      <td data-label="Übung">v2Kabelzug enger Griff</td>
+      <td data-label="Geräte-Nr.">4/41</td>
+      <td data-label="Wdh." class="wdh-cell" data-row-index="4">1</td>
+      <td data-label="Startgewicht" class="kg-cell" data-row-index="5">45</td>
+      <td data-label="Notizen">
+        <div class="notes-container">
+          <button class="toggle-notes-button" type="button"></button>
+          <div class="notes-content">Ellenbogen eng am Körper, Zug zur Hüfte</div>
+        </div>
+      </td>
+      <td data-label="Kommentar"><input type="text" class="comment-input" data-row-index="6" /></td>
+    </tr>
+    <tr>
+      <td data-label="Übung">Brustpresse</td>
+      <td data-label="Geräte-Nr.">63</td>
+      <td data-label="Wdh." class="wdh-cell" data-row-index="5">1</td>
+      <td data-label="Startgewicht" class="kg-cell" data-row-index="6">35</td>
+      <td data-label="Notizen">
+        <div class="notes-container">
+          <button class="toggle-notes-button" type="button"></button>
+          <div class="notes-content">Horizontaler Griff, Ins Hohlkreuz setzen, Schulterblätter an der Lehne fixieren, Schultern unten lassen</div>
+        </div>
+      </td>
+      <td data-label="Kommentar"><input type="text" class="comment-input" data-row-index="3" /></td>
+    </tr>
+    <tr>
+      <td data-label="Übung">Butterfly</td>
+      <td data-label="Geräte-Nr.">52</td>
+      <td data-label="Wdh." class="wdh-cell" data-row-index="6">1</td>
+      <td data-label="Startgewicht" class="kg-cell" data-row-index="7">30</td>
+      <td data-label="Notizen">
+        <div class="notes-container">
+          <button class="toggle-notes-button" type="button"></button>
+          <div class="notes-content">Griffe auf Brusthöhe, ins Hohlkreuz setzen, Schulterblätter an der Lehne fixieren, Schultern unten lassen</div>
+        </div>
+      </td>
+      <td data-label="Kommentar"><input type="text" class="comment-input" data-row-index="4" /></td>
+    </tr>
+    <tr>
+      <td data-label="Übung">Seitheben</td>
+      <td data-label="Geräte-Nr.">66</td>
+      <td data-label="Wdh." class="wdh-cell" data-row-index="7">1</td>
+      <td data-label="Startgewicht" class="kg-cell" data-row-index="8">20</td>
+      <td data-label="Notizen">
+        <div class="notes-container">
+          <button class="toggle-notes-button" type="button"></button>
+          <div class="notes-content">Drehgelenk auf Schulterhöhe, Gewicht wird „aus dem Ellenbogen geführt“</div>
+        </div>
+      </td>
+      <td data-label="Kommentar"><input type="text" class="comment-input" data-row-index="7" /></td>
+    </tr>
+    <tr>
+      <td data-label="Übung">Butterfly reverse</td>
+      <td data-label="Geräte-Nr.">51</td>
+      <td data-label="Wdh." class="wdh-cell" data-row-index="8">1</td>
+      <td data-label="Startgewicht" class="kg-cell" data-row-index="9">20</td>
+      <td data-label="Notizen">
+        <div class="notes-container">
+          <button class="toggle-notes-button" type="button"></button>
+          <div class="notes-content">Schultern unten lassen, Arme nur so weit nach hinten bewegen bis eine gerade Linie mit dem Rücken entsteht, hinten kurz halten</div>
+        </div>
+      </td>
+      <td data-label="Kommentar"><input type="text" class="comment-input" data-row-index="8" /></td>
+    </tr>
+    <tr>
+      <td data-label="Übung">Rückenstrecker</td>
+      <td data-label="Geräte-Nr.">43</td>
+      <td data-label="Wdh." class="wdh-cell" data-row-index="9">1</td>
+      <td data-label="Startgewicht" class="kg-cell" data-row-index="10">35</td>
+      <td data-label="Notizen">
+        <div class="notes-container">
+          <button class="toggle-notes-button" type="button"></button>
+          <div class="notes-content">Rückenrolle Stufe 4, das davor Stufe 7 circa, Beine so wie es passt</div>
+        </div>
+      </td>
+      <td data-label="Kommentar"><input type="text" class="comment-input" data-row-index="9" /></td>
+    </tr>
+    <tr>
+      <td data-label="Übung">Bauch – Beinheben in der Stütz oder Bauchpresse</td>
+      <td data-label="Geräte-Nr.">71/77</td>
+      <td data-label="Wdh." class="wdh-cell" data-row-index="10">1</td>
+      <td data-label="Startgewicht" class="kg-cell" data-row-index="11">Kg</td>
+      <td data-label="Notizen">
+        <div class="notes-container">
+          <button class="toggle-notes-button" type="button"></button>
+          <div class="notes-content">Schulter auf höhe der armstützen</div>
+        </div>
+      </td>
+      <td data-label="Kommentar"><input type="text" class="comment-input" data-row-index="10" /></td>
+    </tr>
   </tbody>
 </table>
+
 <script>
-  // JS Code unverändert wie im ursprünglichen Beispiel
   window.addEventListener("DOMContentLoaded", () => {
     const rows = Array.from(document.querySelectorAll("tbody tr"));
+
+    // Zustände aus localStorage laden
     const clickedRows = JSON.parse(localStorage.getItem('clickedRows') || '[]');
     const expandedNotes = JSON.parse(localStorage.getItem('expandedNotes') || '[]');
     const comments = JSON.parse(localStorage.getItem('comments') || '{}');
     const wdhValues = JSON.parse(localStorage.getItem('wdhValues') || '{}');
     const kgValues = JSON.parse(localStorage.getItem('kgValues') || '{}');
-    function setWdhCell(cell, val) { cell.textContent = val; }
-    function setKgCell(cell, val) { cell.textContent = val; }
+
+    // Funktion um Wdh. Zell-Inhalt zu aktualisieren
+    function setWdhCell(cell, val) {
+      cell.textContent = val;
+    }
+    // Funktion um kg Zell-Inhalt zu aktualisieren
+    function setKgCell(cell, val) {
+      cell.textContent = val;
+    }
+
     rows.forEach((row, index) => {
       row.style.cursor = 'pointer';
-      if (clickedRows.includes(index)) { row.classList.add("clicked"); }
+
+      if (clickedRows.includes(index)) {
+        row.classList.add("clicked");
+      }
+
+      // Kommentar laden
       const input = row.querySelector('.comment-input');
-      if (input && comments.hasOwnProperty(index)) { input.value = comments[index]; }
+      if (input && comments.hasOwnProperty(index)) {
+        input.value = comments[index];
+      }
+
+      // Wdh. Zelle mit Event für Editieren
       const wdhCell = row.querySelector('.wdh-cell');
       if (wdhCell) {
         const val = wdhValues.hasOwnProperty(index) ? wdhValues[index] : '1';
         setWdhCell(wdhCell, val);
+
         wdhCell.addEventListener('click', (e) => {
           if (wdhCell.querySelector('input')) return;
+
           const inputEdit = document.createElement('input');
           inputEdit.type = 'number';
           inputEdit.min = 1;
@@ -270,31 +448,49 @@
           inputEdit.value = val;
           inputEdit.className = 'wdh-input';
           inputEdit.style.width = '2em';
+
           wdhCell.textContent = '';
           wdhCell.appendChild(inputEdit);
           inputEdit.focus();
+
           function saveValue() {
             let newVal = inputEdit.value.trim();
-            if (!['1', '2', '3'].includes(newVal)) { newVal = '1'; }
+            if (!['1', '2', '3'].includes(newVal)) {
+              newVal = '1'; 
+            }
             wdhValues[index] = newVal;
             localStorage.setItem('wdhValues', JSON.stringify(wdhValues));
             setWdhCell(wdhCell, newVal);
           }
-          inputEdit.addEventListener('blur', () => { saveValue(); });
-          inputEdit.addEventListener('keydown', (ev) => {
-            if (ev.key === 'Enter') { inputEdit.blur(); }
-            if (ev.key === 'Escape') { setWdhCell(wdhCell, val); }
+
+          inputEdit.addEventListener('blur', () => {
+            saveValue();
           });
+
+          inputEdit.addEventListener('keydown', (ev) => {
+            if (ev.key === 'Enter') {
+              inputEdit.blur();
+            }
+            if (ev.key === 'Escape') {
+              setWdhCell(wdhCell, val);
+            }
+          });
+
           e.stopPropagation();
         });
       }
+
+      // kg Zelle mit Event für Editieren
       const kgCell = row.querySelector('.kg-cell');
       if (kgCell) {
+        // Wert aus localStorage oder aus Zelle
         const defaultKgValInCell = kgCell.textContent.trim();
         const val = kgValues.hasOwnProperty(index) ? kgValues[index] : defaultKgValInCell;
         setKgCell(kgCell, val);
+
         kgCell.addEventListener('click', (e) => {
           if (kgCell.querySelector('input')) return;
+
           const inputEdit = document.createElement('input');
           inputEdit.type = 'number';
           inputEdit.min = 10;
@@ -302,11 +498,14 @@
           inputEdit.value = val;
           inputEdit.className = 'kg-input';
           inputEdit.style.width = '3em';
+
           kgCell.textContent = '';
           kgCell.appendChild(inputEdit);
           inputEdit.focus();
+
           function saveValue() {
             let newVal = inputEdit.value.trim();
+            // Prüfe auf zweistellige Zahl zwischen 10 und 99, sonst auf Standard zurück
             if (!/^[0-9]{2}$/.test(newVal) || Number(newVal) < 10 || Number(newVal) > 99) {
               newVal = defaultKgValInCell;
             }
@@ -314,14 +513,24 @@
             localStorage.setItem('kgValues', JSON.stringify(kgValues));
             setKgCell(kgCell, newVal);
           }
-          inputEdit.addEventListener('blur', () => { saveValue(); });
-          inputEdit.addEventListener('keydown', (ev) => {
-            if (ev.key === 'Enter') { inputEdit.blur(); }
-            if (ev.key === 'Escape') { setKgCell(kgCell, val); }
+
+          inputEdit.addEventListener('blur', () => {
+            saveValue();
           });
+
+          inputEdit.addEventListener('keydown', (ev) => {
+            if (ev.key === 'Enter') {
+              inputEdit.blur();
+            }
+            if (ev.key === 'Escape') {
+              setKgCell(kgCell, val);
+            }
+          });
+
           e.stopPropagation();
         });
       }
+
       row.addEventListener("click", (e) => {
         if(e.target.tagName.toLowerCase() === 'input') return;
         if(e.target.classList.contains('wdh-input')) return;
@@ -331,6 +540,7 @@
         const clickedNow = rows.filter(r => r.classList.contains('clicked')).map(r => rows.indexOf(r));
         localStorage.setItem('clickedRows', JSON.stringify(clickedNow));
       });
+
       if (input) {
         input.addEventListener('input', (e) => {
           comments[index] = e.target.value;
@@ -338,20 +548,26 @@
         });
       }
     });
+
+    // Notizen Logik
     const notesContainers = Array.from(document.querySelectorAll('.notes-container'));
+
     notesContainers.forEach((container, i) => {
       const button = container.querySelector('.toggle-notes-button');
       const notesContent = container.querySelector('.notes-content');
+
       if (!notesContent || !notesContent.textContent.trim()) {
         button.style.display = 'none';
         container.style.cursor = 'default';
       } else {
         button.textContent = '+';
         button.style.display = 'inline-block';
+
         if (expandedNotes.includes(i)) {
           container.classList.add('expanded');
           button.style.display = 'none';
         }
+
         button.addEventListener('click', (e) => {
           e.stopPropagation();
           container.classList.add('expanded');
@@ -360,6 +576,7 @@
           const uniqueIndexes = [...new Set(expandedNotes)];
           localStorage.setItem('expandedNotes', JSON.stringify(uniqueIndexes));
         });
+
         notesContent.addEventListener('click', (e) => {
           container.classList.remove('expanded');
           button.style.display = 'inline-block';
@@ -372,6 +589,8 @@
         });
       }
     });
+
+    // Button zum Zurücksetzen des localStorage
     const resetButton = document.getElementById('reset-storage-button');
     resetButton.addEventListener('click', () => {
       localStorage.removeItem('clickedRows');
@@ -385,4 +604,5 @@
 </script>
 </body>
 </html>
+
 
