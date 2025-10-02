@@ -116,13 +116,20 @@
       word-wrap: break-word;
       vertical-align: top;
     }
+    /* Erste Spalte (Übung) ohne Zeilenumbruch, Schrift etwas kleiner */
+    td:nth-child(1), th:nth-child(1) {
+      white-space: nowrap;
+      font-size: 0.85rem;
+    }
     .comment-input {
       font-size: 0.8rem;
       padding: 0.3rem 0.5rem;
     }
-    .wdh-input {
+    .wdh-input, .kg-input {
       font-size: 0.8rem;
       padding: 0.2rem 0.4rem;
+    }
+    .wdh-input {
       width: 2.5rem;
       box-sizing: border-box;
       border-radius: 4px;
@@ -137,8 +144,6 @@
       color: #f5a623;
     }
     .kg-input {
-      font-size: 0.8rem;
-      padding: 0.2rem 0.4rem;
       width: 3rem;
       box-sizing: border-box;
       border-radius: 4px;
