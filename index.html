@@ -109,81 +109,104 @@
       table-layout: auto;
     }
     thead {
-      /* Kopfzeile als sichtbares Flex-Element um Überschriften zu zeigen */
       display: flex;
-      flex-wrap: wrap;
+      flex-wrap: nowrap; /* Keine Umbrüche! */
       background-color: #1e1e1e;
       border-bottom: 2px solid #f5a623;
       padding: 0.25rem 0.5rem;
+      box-sizing: border-box;
     }
     thead tr {
       display: flex;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       width: 100%;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
     thead tr th {
       display: flex;
-      flex: 1 0 auto;
+      /* Breiten exakt wie tbody td, damit die Überschriften genau drüberstehen */
+      &:nth-child(1) { flex-basis: 40%; min-width: 40%; max-width: 40%; }
+      &:nth-child(2) { flex-basis: 15%; min-width: 15%; max-width: 15%; }
+      &:nth-child(3) { flex-basis: 15%; min-width: 15%; max-width: 15%; }
+      &:nth-child(4) { flex-basis: 15%; min-width: 15%; max-width: 15%; }
+      &:nth-child(5) { flex-basis: 15%; min-width: 15%; max-width: 15%; }
+      flex-grow: 0;
+      flex-shrink: 0;
       padding: 0.25rem 0.5rem;
       border: none;
       font-weight: 600;
       color: #f5a623;
       border-right: 1px solid #444;
-      min-width: 0; /* Für Ellipsis */
+      min-width: 0;
       box-sizing: border-box;
+      justify-content: flex-start;
+      align-items: center;
     }
     thead tr th:last-child {
       border-right: none;
     }
     tbody tr.main-row {
       display: flex;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       padding: 0.25rem 0.5rem;
       border-bottom: 1px solid #333;
       position: relative;
+      box-sizing: border-box;
     }
     tbody tr.main-row td {
       display: block;
-      flex: 1 0 45%;
-      padding: 0.25rem 0.5rem;
+      box-sizing: border-box;
       white-space: normal;
       overflow: visible;
       text-overflow: clip;
-      vertical-align: top;
+      vertical-align: middle;
       color: inherit;
-      box-sizing: border-box;
-      min-width: 0; /* für Ellipsis */
+      padding: 0.25rem 0.5rem;
+      flex-grow: 0;
+      flex-shrink: 0;
+      /* Breiten exakt und passend zu thead */
     }
     tbody tr.main-row td:nth-child(1) {
       flex-basis: 40%;
+      min-width: 40%;
+      max-width: 40%;
       font-weight: 600;
     }
     tbody tr.main-row td:nth-child(2) {
       flex-basis: 15%;
+      min-width: 15%;
+      max-width: 15%;
     }
     tbody tr.main-row td:nth-child(3) {
       flex-basis: 15%;
+      min-width: 15%;
+      max-width: 15%;
     }
     tbody tr.main-row td:nth-child(4) {
       flex-basis: 15%;
+      min-width: 15%;
+      max-width: 15%;
     }
     tbody tr.main-row td:nth-child(5) {
       flex-basis: 15%;
+      min-width: 15%;
+      max-width: 15%;
       text-align: center;
     }
     tbody tr.note-row {
       display: none;
       background-color: #2a2a2a;
       border-bottom: 1px solid #333;
+      box-sizing: border-box;
     }
     tbody tr.note-row.active {
       display: table-row;
     }
     tbody tr.note-row td {
       padding: 0.5rem 1rem;
-      color: inherit; /* color will be set dynamically */
+      color: inherit;
       font-size: 0.9rem;
       white-space: normal;
       overflow-wrap: break-word;
@@ -288,91 +311,94 @@
       { name: "Bauch – Beinheben in der Stütz oder Bauchpresse", device: "71/77", wdh: "1", kg: "Kg", notes: "Schulter auf höhe der armstützen" }
     ];
 
-    let clickedRows = safeParseJSON('clickedRows', []);
-    let expandedNotes = safeParseJSON('expandedNotes', []);
-    let wdhValues = safeParseJSON('wdhValues', {});
-    let kgValues = safeParseJSON('kgValues', {});
-    let notesTexts = safeParseJSON('notesTexts', {});
+    let clickedRows = safeParseJSON("clickedRows", []);
+    let expandedNotes = safeParseJSON("expandedNotes", []);
+    let wdhValues = safeParseJSON("wdhValues", {});
+    let kgValues = safeParseJSON("kgValues", {});
+    let notesTexts = safeParseJSON("notesTexts", {});
 
-    expandedNotes = expandedNotes.filter(i => i >= 0 && i < exercises.length);
+    expandedNotes = expandedNotes.filter((i) => i >= 0 && i < exercises.length);
 
-    const tbody = document.getElementById('table-body');
-    tbody.innerHTML = '';
+    const tbody = document.getElementById("table-body");
+    tbody.innerHTML = "";
 
     function createCell(content, className, rowIndex) {
-      const td = document.createElement('td');
+      const td = document.createElement("td");
       if (className) td.className = className;
       if (rowIndex !== undefined) {
-        td.setAttribute('data-row-index', rowIndex);
+        td.setAttribute("data-row-index", rowIndex);
       }
       td.textContent = content;
       return td;
     }
 
     function updateStorage() {
-      localStorage.setItem('expandedNotes', JSON.stringify(expandedNotes));
+      localStorage.setItem("expandedNotes", JSON.stringify(expandedNotes));
     }
 
     exercises.forEach((ex, i) => {
-      const trMain = document.createElement('tr');
-      trMain.classList.add('main-row');
-      if (clickedRows.includes(i)) trMain.classList.add('clicked');
+      const trMain = document.createElement("tr");
+      trMain.classList.add("main-row");
+      if (clickedRows.includes(i)) trMain.classList.add("clicked");
 
       function getRowTextColor() {
-        if (trMain.classList.contains('clicked')) {
-          return '#f5a623';
+        if (trMain.classList.contains("clicked")) {
+          return "#f5a623";
         }
-        return (i % 2 === 0) ? '#e0e0e0' : '#e0e0e0';
+        return i % 2 === 0 ? "#e0e0e0" : "#e0e0e0";
       }
       trMain.style.color = getRowTextColor();
 
-      const tdName = createCell(ex.name, '', i);
-      tdName.setAttribute('data-label', 'Übung');
+      const tdName = createCell(ex.name, "", i);
+      tdName.setAttribute("data-label", "Übung");
       trMain.appendChild(tdName);
 
       const tdDevice = createCell(ex.device);
-      tdDevice.setAttribute('data-label', 'Geräte-Nr.');
+      tdDevice.setAttribute("data-label", "Geräte-Nr.");
       trMain.appendChild(tdDevice);
 
       const wdhVal = wdhValues.hasOwnProperty(i) ? wdhValues[i] : ex.wdh;
-      const tdWdh = createCell(wdhVal, 'wdh-cell', i);
-      tdWdh.setAttribute('data-label', 'Wdh.');
+      const tdWdh = createCell(wdhVal, "wdh-cell", i);
+      tdWdh.setAttribute("data-label", "Wdh.");
       trMain.appendChild(tdWdh);
 
       const kgVal = kgValues.hasOwnProperty(i) ? kgValues[i] : ex.kg;
-      const tdKg = createCell(kgVal, 'kg-cell', i);
-      tdKg.setAttribute('data-label', 'Startgewicht');
+      const tdKg = createCell(kgVal, "kg-cell", i);
+      tdKg.setAttribute("data-label", "Startgewicht");
       trMain.appendChild(tdKg);
 
-      const tdNotesBtn = document.createElement('td');
-      tdNotesBtn.setAttribute('data-label', 'Notizen');
-      tdNotesBtn.style.textAlign = 'center';
+      const tdNotesBtn = document.createElement("td");
+      tdNotesBtn.setAttribute("data-label", "Notizen");
+      tdNotesBtn.style.textAlign = "center";
 
-      const notesContainer = document.createElement('div');
-      notesContainer.className = 'notes-container';
+      const notesContainer = document.createElement("div");
+      notesContainer.className = "notes-container";
 
-      const noteText = (notesTexts.hasOwnProperty(i) && notesTexts[i].trim() !== '') ? notesTexts[i].trim() : ex.notes.trim();
+      const noteText =
+        notesTexts.hasOwnProperty(i) && notesTexts[i].trim() !== ""
+          ? notesTexts[i].trim()
+          : ex.notes.trim();
 
       if (noteText.length > 0) {
-        const toggleButton = document.createElement('button');
-        toggleButton.type = 'button';
-        toggleButton.className = 'toggle-notes-button';
-        toggleButton.textContent = expandedNotes.includes(i) ? '−' : '+';
+        const toggleButton = document.createElement("button");
+        toggleButton.type = "button";
+        toggleButton.className = "toggle-notes-button";
+        toggleButton.textContent = expandedNotes.includes(i) ? "−" : "+";
         notesContainer.appendChild(toggleButton);
 
-        toggleButton.addEventListener('click', (e) => {
+        toggleButton.addEventListener("click", (e) => {
           e.stopPropagation();
-          const isActive = trNote.classList.contains('active');
+          const isActive = trNote.classList.contains("active");
           if (isActive) {
-            trNote.classList.remove('active');
-            toggleButton.textContent = '+';
+            trNote.classList.remove("active");
+            toggleButton.textContent = "+";
             const idx = expandedNotes.indexOf(i);
             if (idx > -1) {
               expandedNotes.splice(idx, 1);
             }
           } else {
-            trNote.classList.add('active');
-            toggleButton.textContent = '−';
+            trNote.classList.add("active");
+            toggleButton.textContent = "−";
             if (!expandedNotes.includes(i)) {
               expandedNotes.push(i);
             }
@@ -386,15 +412,15 @@
 
       tbody.appendChild(trMain);
 
-      const trNote = document.createElement('tr');
-      trNote.classList.add('note-row');
+      const trNote = document.createElement("tr");
+      trNote.classList.add("note-row");
       if (expandedNotes.includes(i)) {
-        trNote.classList.add('active');
+        trNote.classList.add("active");
       }
 
-      const tdNote = document.createElement('td');
+      const tdNote = document.createElement("td");
       tdNote.colSpan = 5;
-      tdNote.className = 'notes-content';
+      tdNote.className = "notes-content";
 
       tdNote.textContent = noteText;
 
@@ -407,35 +433,35 @@
       trNote.appendChild(tdNote);
       tbody.appendChild(trNote);
 
-      tdWdh.addEventListener('click', e => {
-        if (tdWdh.querySelector('input')) return;
-        const inputEdit = document.createElement('input');
-        inputEdit.type = 'number';
+      tdWdh.addEventListener("click", (e) => {
+        if (tdWdh.querySelector("input")) return;
+        const inputEdit = document.createElement("input");
+        inputEdit.type = "number";
         inputEdit.min = 1;
         inputEdit.max = 3;
         inputEdit.value = wdhVal;
-        inputEdit.className = 'wdh-input';
-        inputEdit.style.width = '2em';
+        inputEdit.className = "wdh-input";
+        inputEdit.style.width = "2em";
         inputEdit.style.color = getRowTextColor();
-        inputEdit.style.backgroundColor = 'transparent';
-        inputEdit.style.border = 'none';
-        tdWdh.textContent = '';
+        inputEdit.style.backgroundColor = "transparent";
+        inputEdit.style.border = "none";
+        tdWdh.textContent = "";
         tdWdh.appendChild(inputEdit);
         inputEdit.focus();
 
         function saveValue() {
           let newVal = inputEdit.value.trim();
-          if (!['1', '2', '3'].includes(newVal)) newVal = '1';
+          if (!["1", "2", "3"].includes(newVal)) newVal = "1";
           wdhValues[i] = newVal;
-          localStorage.setItem('wdhValues', JSON.stringify(wdhValues));
+          localStorage.setItem("wdhValues", JSON.stringify(wdhValues));
           tdWdh.textContent = newVal;
           tdWdh.style.color = getRowTextColor();
         }
 
-        inputEdit.addEventListener('blur', saveValue);
-        inputEdit.addEventListener('keydown', ev => {
-          if (ev.key === 'Enter') inputEdit.blur();
-          if (ev.key === 'Escape') {
+        inputEdit.addEventListener("blur", saveValue);
+        inputEdit.addEventListener("keydown", (ev) => {
+          if (ev.key === "Enter") inputEdit.blur();
+          if (ev.key === "Escape") {
             tdWdh.textContent = wdhVal;
             tdWdh.style.color = getRowTextColor();
           }
@@ -443,35 +469,36 @@
         e.stopPropagation();
       });
 
-      tdKg.addEventListener('click', e => {
-        if (tdKg.querySelector('input')) return;
-        const inputEdit = document.createElement('input');
-        inputEdit.type = 'number';
+      tdKg.addEventListener("click", (e) => {
+        if (tdKg.querySelector("input")) return;
+        const inputEdit = document.createElement("input");
+        inputEdit.type = "number";
         inputEdit.min = 10;
         inputEdit.max = 99;
         inputEdit.value = kgVal;
-        inputEdit.className = 'kg-input';
-        inputEdit.style.width = '3em';
+        inputEdit.className = "kg-input";
+        inputEdit.style.width = "3em";
         inputEdit.style.color = getRowTextColor();
-        inputEdit.style.backgroundColor = 'transparent';
-        inputEdit.style.border = 'none';
-        tdKg.textContent = '';
+        inputEdit.style.backgroundColor = "transparent";
+        inputEdit.style.border = "none";
+        tdKg.textContent = "";
         tdKg.appendChild(inputEdit);
         inputEdit.focus();
 
         function saveValue() {
           let newVal = inputEdit.value.trim();
-          if (!/^[0-9]{2}$/.test(newVal) || Number(newVal) < 10 || Number(newVal) > 99) newVal = ex.kg;
+          if (!/^[0-9]{2}$/.test(newVal) || Number(newVal) < 10 || Number(newVal) > 99)
+            newVal = ex.kg;
           kgValues[i] = newVal;
-          localStorage.setItem('kgValues', JSON.stringify(kgValues));
+          localStorage.setItem("kgValues", JSON.stringify(kgValues));
           tdKg.textContent = newVal;
           tdKg.style.color = getRowTextColor();
         }
 
-        inputEdit.addEventListener('blur', saveValue);
-        inputEdit.addEventListener('keydown', ev => {
-          if (ev.key === 'Enter') inputEdit.blur();
-          if (ev.key === 'Escape') {
+        inputEdit.addEventListener("blur", saveValue);
+        inputEdit.addEventListener("keydown", (ev) => {
+          if (ev.key === "Enter") inputEdit.blur();
+          if (ev.key === "Escape") {
             tdKg.textContent = kgVal;
             tdKg.style.color = getRowTextColor();
           }
@@ -479,55 +506,56 @@
         e.stopPropagation();
       });
 
-      trMain.addEventListener('click', e => {
-        const ignoreTags = ['input', 'button'];
+      trMain.addEventListener("click", (e) => {
+        const ignoreTags = ["input", "button"];
         if (ignoreTags.includes(e.target.tagName.toLowerCase())) return;
 
-        const cell = e.target.closest('td');
+        const cell = e.target.closest("td");
         if (!cell) return;
         const cellIndex = Array.from(cell.parentNode.children).indexOf(cell);
         if (cellIndex === 0 || cellIndex === 1) {
-          trMain.classList.toggle('clicked');
-          clickedRows = Array.from(document.querySelectorAll('tbody tr.main-row.clicked'))
-            .map(row => Array.from(tbody.children).indexOf(row) / 2 | 0);
-          localStorage.setItem('clickedRows', JSON.stringify(clickedRows));
+          trMain.classList.toggle("clicked");
+          clickedRows = Array.from(
+            document.querySelectorAll("tbody tr.main-row.clicked")
+          ).map((row) => Array.from(tbody.children).indexOf(row) / 2 | 0);
+          localStorage.setItem("clickedRows", JSON.stringify(clickedRows));
           trMain.style.color = getRowTextColor();
           updateNoteColor();
         }
       });
 
-      tdNote.addEventListener('click', e => {
+      tdNote.addEventListener("click", (e) => {
         e.stopPropagation();
-        if (tdNote.querySelector('textarea')) return;
+        if (tdNote.querySelector("textarea")) return;
 
         const currentText = tdNote.textContent.trim();
-        tdNote.textContent = '';
+        tdNote.textContent = "";
 
-        const textarea = document.createElement('textarea');
-        textarea.className = 'notes-edit-textarea';
+        const textarea = document.createElement("textarea");
+        textarea.className = "notes-edit-textarea";
         textarea.value = currentText;
         textarea.rows = 4;
         textarea.style.color = getRowTextColor();
-        textarea.style.backgroundColor = '#1a1a1a';
+        textarea.style.backgroundColor = "#1a1a1a";
         tdNote.appendChild(textarea);
         textarea.focus();
 
         function saveNote() {
           const newText = textarea.value.trim();
           notesTexts[i] = newText;
-          localStorage.setItem('notesTexts', JSON.stringify(notesTexts));
+          localStorage.setItem("notesTexts", JSON.stringify(notesTexts));
           tdNote.textContent = newText;
           textarea.remove();
           tdNote.style.color = getRowTextColor();
         }
 
-        textarea.addEventListener('blur', saveNote);
-        textarea.addEventListener('keydown', ev => {
-          if (ev.key === 'Enter' && !ev.shiftKey) {
+        textarea.addEventListener("blur", saveNote);
+        textarea.addEventListener("keydown", (ev) => {
+          if (ev.key === "Enter" && !ev.shiftKey) {
             ev.preventDefault();
             textarea.blur();
           }
-          if (ev.key === 'Escape') {
+          if (ev.key === "Escape") {
             tdNote.textContent = currentText;
             textarea.remove();
             tdNote.style.color = getRowTextColor();
@@ -536,18 +564,19 @@
       });
     });
 
-    document.getElementById('reset-storage-button').addEventListener('click', () => {
-      localStorage.removeItem('clickedRows');
-      localStorage.removeItem('expandedNotes');
-      localStorage.removeItem('wdhValues');
-      localStorage.removeItem('kgValues');
-      localStorage.removeItem('notesTexts');
-      location.reload();
-    });
+    document
+      .getElementById("reset-storage-button")
+      .addEventListener("click", () => {
+        localStorage.removeItem("clickedRows");
+        localStorage.removeItem("expandedNotes");
+        localStorage.removeItem("wdhValues");
+        localStorage.removeItem("kgValues");
+        localStorage.removeItem("notesTexts");
+        location.reload();
+      });
   });
 </script>
 </body>
 </html>
-
 
 
