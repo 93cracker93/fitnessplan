@@ -183,7 +183,7 @@
       <td data-label="Startgewicht">50–60 kg</td>
       <td data-label="Notizen">
         <div class="notes-container">
-          <button class="toggle-notes-button" type="button">+</button>
+          <button class="toggle-notes-button" type="button"></button>
           <div class="notes-content">Lehne ganz nach hinten, Füße schulterbreit in der Mitte der Auflage platzieren, Fußspitzen zeigen leicht nach außen</div>
         </div>
       </td>
@@ -196,7 +196,7 @@
       <td data-label="Startgewicht">45–50 kg</td>
       <td data-label="Notizen">
         <div class="notes-container">
-          <button class="toggle-notes-button" type="button">+</button>
+          <button class="toggle-notes-button" type="button"></button>
           <div class="notes-content"></div>
         </div>
       </td>
@@ -209,7 +209,7 @@
       <td data-label="Startgewicht">40 kg</td>
       <td data-label="Notizen">
         <div class="notes-container">
-          <button class="toggle-notes-button" type="button">+</button>
+          <button class="toggle-notes-button" type="button"></button>
           <div class="notes-content"></div>
         </div>
       </td>
@@ -222,7 +222,7 @@
       <td data-label="Startgewicht">40–45 kg</td>
       <td data-label="Notizen">
         <div class="notes-container">
-          <button class="toggle-notes-button" type="button">+</button>
+          <button class="toggle-notes-button" type="button"></button>
           <div class="notes-content">Schultern mit herunternehmen, Ellenbogen leicht vor dem Körper halten, Zug zur Hüfte</div>
         </div>
       </td>
@@ -235,7 +235,7 @@
       <td data-label="Startgewicht">M: 45 kg / K: 30 kg</td>
       <td data-label="Notizen">
         <div class="notes-container">
-          <button class="toggle-notes-button" type="button">+</button>
+          <button class="toggle-notes-button" type="button"></button>
           <div class="notes-content">Ellenbogen eng am Körper, Zug zur Hüfte</div>
         </div>
       </td>
@@ -248,7 +248,7 @@
       <td data-label="Startgewicht">35 kg</td>
       <td data-label="Notizen">
         <div class="notes-container">
-          <button class="toggle-notes-button" type="button">+</button>
+          <button class="toggle-notes-button" type="button"></button>
           <div class="notes-content">Horizontaler Griff, Ins Hohlkreuz setzen, Schulterblätter an der Lehne fixieren, Schultern unten lassen</div>
         </div>
       </td>
@@ -261,7 +261,7 @@
       <td data-label="Startgewicht">30 kg</td>
       <td data-label="Notizen">
         <div class="notes-container">
-          <button class="toggle-notes-button" type="button">+</button>
+          <button class="toggle-notes-button" type="button"></button>
           <div class="notes-content">Griffe auf Brusthöhe, ins Hohlkreuz setzen, Schulterblätter an der Lehne fixieren, Schultern unten lassen</div>
         </div>
       </td>
@@ -274,7 +274,7 @@
       <td data-label="Startgewicht">15–20 kg</td>
       <td data-label="Notizen">
         <div class="notes-container">
-          <button class="toggle-notes-button" type="button">+</button>
+          <button class="toggle-notes-button" type="button"></button>
           <div class="notes-content">Drehgelenk auf Schulterhöhe, Gewicht wird „aus dem Ellenbogen geführt“</div>
         </div>
       </td>
@@ -287,7 +287,7 @@
       <td data-label="Startgewicht">15–20 kg</td>
       <td data-label="Notizen">
         <div class="notes-container">
-          <button class="toggle-notes-button" type="button">+</button>
+          <button class="toggle-notes-button" type="button"></button>
           <div class="notes-content">Schultern unten lassen, Arme nur so weit nach hinten bewegen bis eine gerade Linie mit dem Rücken entsteht, hinten kurz halten</div>
         </div>
       </td>
@@ -300,7 +300,7 @@
       <td data-label="Startgewicht">35kg</td>
       <td data-label="Notizen">
         <div class="notes-container">
-          <button class="toggle-notes-button" type="button">+</button>
+          <button class="toggle-notes-button" type="button"></button>
           <div class="notes-content">Rückenrolle Stufe 4, das davor Stufe 7 circa, Beine so wie es passt</div>
         </div>
       </td>
@@ -313,7 +313,7 @@
       <td data-label="Startgewicht">Körpergewicht</td>
       <td data-label="Notizen">
         <div class="notes-container">
-          <button class="toggle-notes-button" type="button">+</button>
+          <button class="toggle-notes-button" type="button"></button>
           <div class="notes-content">Schulter auf höhe der armstützen</div>
         </div>
       </td>
@@ -324,39 +324,86 @@
 
 <script>
   window.addEventListener("DOMContentLoaded", () => {
-    const rows = document.querySelectorAll("tbody tr");
+    const rows = Array.from(document.querySelectorAll("tbody tr"));
 
-    rows.forEach((row) => {
+    // gespeicherte Zustände laden
+    const clickedRows = JSON.parse(localStorage.getItem('clickedRows') || '[]');
+    const expandedNotes = JSON.parse(localStorage.getItem('expandedNotes') || '[]');
+    const comments = JSON.parse(localStorage.getItem('comments') || '{}');
+
+    rows.forEach((row, index) => {
       row.style.cursor = 'pointer';
 
+      // Korrekte Wiederherstellung der angeklickten Zeilen nach Index im DOM
+      if (clickedRows.includes(index)) {
+        row.classList.add("clicked");
+      }
+
+      // Kommentar zurücksetzen
+      const input = row.querySelector('.comment-input');
+      if (input && comments.hasOwnProperty(index)) {
+        input.value = comments[index];
+      }
+
+      // Klick-Handler für Zeilen (außer Input)
       row.addEventListener("click", (e) => {
         if(e.target.tagName.toLowerCase() === 'input') return;
         row.classList.toggle("clicked");
+
+        // Zustand speichern: exakte Indizes aus DOM-Abfrage verwenden
+        const clickedNow = rows.filter(r => r.classList.contains('clicked')).map(r => rows.indexOf(r));
+        localStorage.setItem('clickedRows', JSON.stringify(clickedNow));
       });
+
+      // Kommentaränderungen speichern
+      if (input) {
+        input.addEventListener('input', (e) => {
+          comments[index] = e.target.value;
+          localStorage.setItem('comments', JSON.stringify(comments));
+        });
+      }
     });
 
-    document.querySelectorAll('.notes-container').forEach(container => {
+    // Notizen Logik
+    const notesContainers = Array.from(document.querySelectorAll('.notes-container'));
+
+    notesContainers.forEach((container, i) => {
       const button = container.querySelector('.toggle-notes-button');
       const notesContent = container.querySelector('.notes-content');
 
       if (!notesContent || !notesContent.textContent.trim()) {
-        // Keine Notiz, Button ausblenden
         button.style.display = 'none';
         container.style.cursor = 'default';
       } else {
         button.textContent = '+';
         button.style.display = 'inline-block';
 
+        // Erweiterte Notizen wiederherstellen
+        if (expandedNotes.includes(i)) {
+          container.classList.add('expanded');
+          button.style.display = 'none';
+        }
+
         button.addEventListener('click', (e) => {
           e.stopPropagation();
           container.classList.add('expanded');
           button.style.display = 'none';
+
+          expandedNotes.push(i);
+          const uniqueIndexes = [...new Set(expandedNotes)];
+          localStorage.setItem('expandedNotes', JSON.stringify(uniqueIndexes));
         });
 
         notesContent.addEventListener('click', (e) => {
           container.classList.remove('expanded');
           button.style.display = 'inline-block';
           e.stopPropagation();
+
+          const idx = expandedNotes.indexOf(i);
+          if (idx > -1) {
+            expandedNotes.splice(idx, 1);
+            localStorage.setItem('expandedNotes', JSON.stringify(expandedNotes));
+          }
         });
       }
     });
