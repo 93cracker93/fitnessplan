@@ -120,6 +120,22 @@
       font-size: 0.8rem;
       padding: 0.3rem 0.5rem;
     }
+    .wdh-input {
+      font-size: 0.8rem;
+      padding: 0.2rem 0.4rem;
+      width: 2.5rem;
+      box-sizing: border-box;
+      border-radius: 4px;
+      border: 1px solid #f5a623;
+      background-color: #1e1e1e;
+      color: #e0e0e0;
+    }
+    .wdh-input:focus {
+      outline: none;
+      border-color: #f5a623;
+      background-color: #2a2a2a;
+      color: #f5a623;
+    }
   }
 
   /* Markierung für angeklickte Zeilen */
@@ -211,7 +227,7 @@
     <tr>
       <td data-label="Übung">Beinpresse</td>
       <td data-label="Geräte-Nr.">30</td>
-      <td data-label="Wdh.">15/12/10</td>
+      <td data-label="Wdh." class="wdh-cell" data-row-index="0">1</td>
       <td data-label="Startgewicht">50–60</td>
       <td data-label="Notizen">
         <div class="notes-container">
@@ -224,7 +240,7 @@
     <tr>
       <td data-label="Übung">Adduktor</td>
       <td data-label="Geräte-Nr.">25</td>
-      <td data-label="Wdh.">15/12/10</td>
+      <td data-label="Wdh." class="wdh-cell" data-row-index="1">1</td>
       <td data-label="Startgewicht">45–50</td>
       <td data-label="Notizen">
         <div class="notes-container">
@@ -237,7 +253,7 @@
     <tr>
       <td data-label="Übung">Abduktor</td>
       <td data-label="Geräte-Nr.">24</td>
-      <td data-label="Wdh.">15/12/10</td>
+      <td data-label="Wdh." class="wdh-cell" data-row-index="2">1</td>
       <td data-label="Startgewicht">40</td>
       <td data-label="Notizen">
         <div class="notes-container">
@@ -250,7 +266,7 @@
     <tr>
       <td data-label="Übung">Latzug o. Kabelzug</td>
       <td data-label="Geräte-Nr.">48/41</td>
-      <td data-label="Wdh.">15/12/10</td>
+      <td data-label="Wdh." class="wdh-cell" data-row-index="3">1</td>
       <td data-label="Startgewicht">40–45</td>
       <td data-label="Notizen">
         <div class="notes-container">
@@ -263,7 +279,7 @@
     <tr>
       <td data-label="Übung">Rudern o. Kabelzug enger Griff</td>
       <td data-label="Geräte-Nr.">4/41</td>
-      <td data-label="Wdh.">12/10/8</td>
+      <td data-label="Wdh." class="wdh-cell" data-row-index="4">1</td>
       <td data-label="Startgewicht">M: 45 / K: 30</td>
       <td data-label="Notizen">
         <div class="notes-container">
@@ -276,7 +292,7 @@
     <tr>
       <td data-label="Übung">Brustpresse</td>
       <td data-label="Geräte-Nr.">63</td>
-      <td data-label="Wdh.">12/10/8</td>
+      <td data-label="Wdh." class="wdh-cell" data-row-index="5">1</td>
       <td data-label="Startgewicht">35</td>
       <td data-label="Notizen">
         <div class="notes-container">
@@ -289,7 +305,7 @@
     <tr>
       <td data-label="Übung">Butterfly</td>
       <td data-label="Geräte-Nr.">52</td>
-      <td data-label="Wdh.">15/12/10</td>
+      <td data-label="Wdh." class="wdh-cell" data-row-index="6">1</td>
       <td data-label="Startgewicht">30</td>
       <td data-label="Notizen">
         <div class="notes-container">
@@ -302,7 +318,7 @@
     <tr>
       <td data-label="Übung">Seitheben</td>
       <td data-label="Geräte-Nr.">66</td>
-      <td data-label="Wdh.">15/12/10</td>
+      <td data-label="Wdh." class="wdh-cell" data-row-index="7">1</td>
       <td data-label="Startgewicht">15–20</td>
       <td data-label="Notizen">
         <div class="notes-container">
@@ -315,7 +331,7 @@
     <tr>
       <td data-label="Übung">Butterfly reverse</td>
       <td data-label="Geräte-Nr.">51</td>
-      <td data-label="Wdh.">10–15</td>
+      <td data-label="Wdh." class="wdh-cell" data-row-index="8">1</td>
       <td data-label="Startgewicht">15–20</td>
       <td data-label="Notizen">
         <div class="notes-container">
@@ -328,7 +344,7 @@
     <tr>
       <td data-label="Übung">Rückenstrecker</td>
       <td data-label="Geräte-Nr.">43</td>
-      <td data-label="Wdh.">10–15</td>
+      <td data-label="Wdh." class="wdh-cell" data-row-index="9">1</td>
       <td data-label="Startgewicht">35</td>
       <td data-label="Notizen">
         <div class="notes-container">
@@ -341,7 +357,7 @@
     <tr>
       <td data-label="Übung">Bauch – Beinheben in der Stütz oder Bauchpresse</td>
       <td data-label="Geräte-Nr.">71/77</td>
-      <td data-label="Wdh.">10–15</td>
+      <td data-label="Wdh." class="wdh-cell" data-row-index="10">1</td>
       <td data-label="Startgewicht">Kög</td>
       <td data-label="Notizen">
         <div class="notes-container">
@@ -362,6 +378,12 @@
     const clickedRows = JSON.parse(localStorage.getItem('clickedRows') || '[]');
     const expandedNotes = JSON.parse(localStorage.getItem('expandedNotes') || '[]');
     const comments = JSON.parse(localStorage.getItem('comments') || '{}');
+    const wdhValues = JSON.parse(localStorage.getItem('wdhValues') || '{}');
+
+    // Funktion um Wdh. Zell-Inhalt zu aktualisieren
+    function setWdhCell(cell, val) {
+      cell.textContent = val;
+    }
 
     rows.forEach((row, index) => {
       row.style.cursor = 'pointer';
@@ -370,13 +392,71 @@
         row.classList.add("clicked");
       }
 
+      // Kommentar laden
       const input = row.querySelector('.comment-input');
       if (input && comments.hasOwnProperty(index)) {
         input.value = comments[index];
       }
 
+      // Wdh. Zelle mit Event für Editieren
+      const wdhCell = row.querySelector('.wdh-cell');
+      if (wdhCell) {
+        // Wert aus localStorage oder Standard 1
+        const val = wdhValues.hasOwnProperty(index) ? wdhValues[index] : '1';
+        setWdhCell(wdhCell, val);
+
+        wdhCell.addEventListener('click', (e) => {
+          // Verhindere weitere Aktionen, falls Input schon da ist
+          if (wdhCell.querySelector('input')) return;
+
+          // Input erstellen
+          const inputEdit = document.createElement('input');
+          inputEdit.type = 'number';
+          inputEdit.min = 1;
+          inputEdit.max = 3;
+          inputEdit.value = val;
+          inputEdit.className = 'wdh-input';
+          inputEdit.style.width = '2em';
+
+          // Cell leeren und Input einfügen
+          wdhCell.textContent = '';
+          wdhCell.appendChild(inputEdit);
+          inputEdit.focus();
+
+          // Eingabe bestätigen bei Enter oder Fokusverlust
+          function saveValue() {
+            let newVal = inputEdit.value.trim();
+            if (!['1', '2', '3'].includes(newVal)) {
+              newVal = '1'; // Standard bei falscher Eingabe
+            }
+            wdhValues[index] = newVal;
+            localStorage.setItem('wdhValues', JSON.stringify(wdhValues));
+
+            setWdhCell(wdhCell, newVal);
+          }
+
+          inputEdit.addEventListener('blur', () => {
+            saveValue();
+          });
+
+          inputEdit.addEventListener('keydown', (ev) => {
+            if (ev.key === 'Enter') {
+              inputEdit.blur();
+            }
+            if (ev.key === 'Escape') {
+              // Abbrechen: Ursprünglichen Wert wiederherstellen
+              setWdhCell(wdhCell, val);
+            }
+          });
+
+          e.stopPropagation();
+        });
+      }
+
       row.addEventListener("click", (e) => {
         if(e.target.tagName.toLowerCase() === 'input') return;
+        if(e.target.classList.contains('wdh-input')) return;
+        if(e.target.classList.contains('comment-input')) return;
         row.classList.toggle("clicked");
         const clickedNow = rows.filter(r => r.classList.contains('clicked')).map(r => rows.indexOf(r));
         localStorage.setItem('clickedRows', JSON.stringify(clickedNow));
@@ -437,6 +517,7 @@
       localStorage.removeItem('clickedRows');
       localStorage.removeItem('expandedNotes');
       localStorage.removeItem('comments');
+      localStorage.removeItem('wdhValues');
       location.reload();
     });
   });
