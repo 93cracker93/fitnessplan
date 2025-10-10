@@ -303,8 +303,8 @@
       { name: "Latzug", device: "48/41", wdh: "1", kg: "50", notes: "Schultern mit herunternehmen, Ellenbogen leicht vor dem Körper halten, Zug zur Hüfte, mittlerer 3D Griff-nicht den ganz breiten" },
       { name: "Rudern", device: "4/41", wdh: "1", kg: "40", notes: "Ellenbogen eng am Körper, Zug zur Hüfte" },
      // { name: "v2Kabelzug enger Griff", device: "4/41", wdh: "1", kg: "45", notes: "Ellenbogen eng am Körper, Zug zur Hüfte" },
-      { name: "Brustpresse", device: "63", wdh: "1", kg: "35", notes: "Horizontaler Griff, Ins Hohlkreuz setzen, Schulterblätter an der Lehne fixieren, Schultern unten lassen" },
-      { name: "Butterfly", device: "52", wdh: "1", kg: "35", notes: "Griffe auf Brusthöhe, ins Hohlkreuz setzen, Schulterblätter an der Lehne fixieren, Schultern unten lassen" },
+      { name: "Brustpresse", device: "63", wdh: "1", kg: "35", notes: "Horizontaler Griff, Ins Hohlkreuz setzen, Schulterblätter an der Lehne fixieren, Schultern unten lassen, Sitz zwischen 6-7" },
+      { name: "Butterfly", device: "52", wdh: "1", kg: "35", notes: "Griffe auf Brusthöhe, ins Hohlkreuz setzen, Schulterblätter an der Lehne fixieren, Schultern unten lassen, Sitz 6" },
       { name: "Seitheben", device: "66", wdh: "1", kg: "25", notes: "Drehgelenk auf Schulterhöhe, Gewicht wird „aus dem Ellenbogen geführt“" },
       { name: "Butterfly reverse", device: "51", wdh: "1", kg: "30", notes: "Schultern unten lassen, Arme nur so weit nach hinten bewegen bis eine gerade Linie mit dem Rücken entsteht, hinten kurz halten" },
       { name: "Rückenstrecker", device: "43", wdh: "1", kg: "40", notes: "Rückenrolle Stufe 4, das davor Stufe 8, Beine zwischen 5 und 6" },
@@ -564,16 +564,19 @@
       });
     });
 
-    document
-      .getElementById("reset-storage-button")
-      .addEventListener("click", () => {
-        localStorage.removeItem("clickedRows");
-        localStorage.removeItem("expandedNotes");
-        localStorage.removeItem("wdhValues");
-        localStorage.removeItem("kgValues");
-        localStorage.removeItem("notesTexts");
-        location.reload();
-      });
+document
+  .getElementById("reset-storage-button")
+  .addEventListener("click", () => {
+    if (confirm("Sind Sie sicher, dass Sie alle gespeicherten Daten wirklich zurücksetzen möchten?")) {
+      localStorage.removeItem("clickedRows");
+      localStorage.removeItem("expandedNotes");
+      localStorage.removeItem("wdhValues");
+      localStorage.removeItem("kgValues");
+      localStorage.removeItem("notesTexts");
+      location.reload();
+    }
+  });
+
   });
 </script>
 </body>
